@@ -10,9 +10,9 @@ export default function Customers() {
 
     const [customers, setCustomers] = useState([]);
 
-    useEffect(() => fecthData(), []);
+    useEffect(() => fetchData(), []);
 
-    const fecthData = () => {
+    const fetchData = () => {
         fetch('https://customerrest.herokuapp.com/api/customers')
         .then(response => response.json())
         .then(data => setCustomers(data.content))
@@ -23,7 +23,7 @@ export default function Customers() {
         //console.log(link);
         if (window.confirm('Are you sure you want to delete this customer?')) {
         fetch(link, {method: 'DELETE'})
-        .then(response => fecthData())
+        .then(response => fetchData())
         .catch(err => console.error(err))
         }
     }
@@ -32,11 +32,11 @@ export default function Customers() {
         fetch('https://customerrest.herokuapp.com/api/customers', {
          method: 'POST',
          headers: {
-             'Content-type': 'application/json'
+             'Content-Type': 'application/json'
          },
          body: JSON.stringify(customer)   
         })
-        .then(response => fecthData())
+        .then(response => fetchData())
         .catch(err => console.error(err))
     }
 
@@ -44,23 +44,23 @@ export default function Customers() {
         fetch(link, {
             method: 'PUT',
             headers: {
-                'Content-type': 'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(customer) 
         })
-        .then(response => fecthData())
+        .then(response => fetchData())
         .catch(err => console.error(err))
     }
 
-    const saveTraining = (training, link) => {
-        fetch(link, {
+    const saveTraining = (training) => {
+        fetch('https://customerrest.herokuapp.com/api/trainings', {  
             method: 'POST',
             headers: {
-                'Content-type': 'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(training) 
         })
-        .then(response => fecthData())
+        .then(response => fetchData())
         .catch(err => console.error(err))
     }
 
@@ -96,9 +96,9 @@ export default function Customers() {
         {
             sortable: false,
             filterable: false,
-            width: 200,
-            //accessor: 'links[0].href',
-            Cell: row => <AddTraining saveTraining={saveTraining} training={row.original}/>  
+            width: 150,
+           // accessor: 'links[0].href',
+            Cell: row => <AddTraining saveTraining={saveTraining} training={row.original}/> 
         },
         {
             sortable: false,
